@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../services/api";
 
 interface Todo {
   id: number;
@@ -9,7 +10,20 @@ export function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
 
-  function handleCreateNewTodo() {}
+  useEffect(() => {
+    api.get("todos").then((reponse) => setTodos(reponse.data));
+  }, []);
+
+  async function handleCreateNewTodo() {
+    const response = await api.post("todos", { content: newTodo });
+
+    const todo: Todo = {
+      id: response.data.id,
+      content: response.data.content,
+    };
+
+    setTodos([...todos, todo]);
+  }
 
   return (
     <section>
@@ -29,7 +43,11 @@ export function TodoList() {
         </div>
       </header>
 
-      <main>todos everywhereeeeee</main>
+      <main>
+        {todos.map((todo) => {
+          return <h1>{todo.content}</h1>;
+        })}
+      </main>
     </section>
   );
 }
