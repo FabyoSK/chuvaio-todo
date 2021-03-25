@@ -1,5 +1,6 @@
 const express = require("express");
 const { uuid } = require("uuidv4");
+
 const app = express();
 app.use(express.json());
 
@@ -19,24 +20,28 @@ app.post("/todos", (req, res) => {
   return res.json(todo);
 });
 
-app.put("/todos/:id", (req, res) => {
-  const { id } = req.params;
-  const { content } = req.body;
+// app.put("/todos/:id", (req, res) => {
+//   const { id } = req.params;
+//   const { content } = req.body;
 
-  const todo = { id, content };
+//   const todo = { id, content };
 
-  const todoIndex = todos.findIndex((todo) => todo.id === id);
+//   const todoIndex = todos.findIndex((todo) => todo.id === id);
+//   if (todoIndex < 0) {
+//     return res.status(400).json({ ERROR: "Todo not found." });
+//   }
+//   todos[todoIndex] = todo;
 
-  todos[todoIndex] = todo;
-
-  return res.json(todo);
-});
+//   return res.json(todo);
+// });
 
 app.delete("/todos/:id", (req, res) => {
   const { id } = req.params;
 
   const todoIndex = todos.findIndex((todo) => todo.id === id);
-
+  if (todoIndex < 0) {
+    return res.status(400).json({ ERROR: "Todo not found." });
+  }
   todos.splice(todoIndex, 1);
 
   return res.status(204).send();
