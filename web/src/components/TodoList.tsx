@@ -25,11 +25,17 @@ export function TodoList() {
     setTodos([...todos, todo]);
   }
 
+  async function handleDeleteTodo(id: number) {
+    await api.delete(`todos/${id}`);
+
+    const filtredTodo = todos.filter((todo) => todo.id !== id);
+
+    setTodos(filtredTodo);
+  }
   return (
     <section>
       <header>
-        <h2>Your Todo List</h2>
-
+        `<h2>Your Todo List</h2>
         <div>
           <input
             type="text"
@@ -45,7 +51,12 @@ export function TodoList() {
 
       <main>
         {todos.map((todo) => {
-          return <h1>{todo.content}</h1>;
+          return (
+            <h1>
+              {todo.content}
+              <button onClick={() => handleDeleteTodo(todo.id)}>X</button>
+            </h1>
+          );
         })}
       </main>
     </section>
