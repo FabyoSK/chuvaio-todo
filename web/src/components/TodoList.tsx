@@ -35,7 +35,7 @@ export function TodoList() {
   return (
     <section>
       <header>
-        `<h2>Your Todo List</h2>
+        <h2>Your Todo List</h2>
         <div>
           <input
             type="text"
