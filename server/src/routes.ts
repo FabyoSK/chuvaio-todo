@@ -1,12 +1,14 @@
 import express from "express";
 import { uuid } from "uuidv4";
+
 const routes = express.Router();
 
 interface Todo {
-  id: number;
+  id: string;
   content: string;
 }
-const todos = [];
+
+const todos = <Todo[]>[];
 
 routes.get("/todos", (req, res) => {
   return res.json(todos);
@@ -15,7 +17,7 @@ routes.get("/todos", (req, res) => {
 routes.post("/todos", (req, res) => {
   const { content } = req.body;
 
-  const todo = { id: uuid(), content: content };
+  const todo: Todo = { id: uuid(), content: content };
 
   todos.push(todo);
 
@@ -37,7 +39,7 @@ routes.post("/todos", (req, res) => {
 //   return res.json(todo);
 // });
 
-routes.delete("/todos/:id", (req: Request, res: Response) => {
+routes.delete("/todos/:id", (req, res) => {
   const { id } = req.params;
 
   const todoIndex = todos.findIndex((todo) => todo.id === id);
