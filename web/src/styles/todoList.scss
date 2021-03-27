@@ -23,13 +23,20 @@ section.todo-list {
 
       input {
         padding: 12px 24px;
-        margin-right: 2px;
         border: 0;
         border-radius: 8px;
       }
 
       button {
-        padding: 12px;
+        padding: 14px;
+        border: 0;
+        background-color: #3fad27;
+        border-radius: 8px;
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-left: 10px;
       }
     }
   }
@@ -54,8 +61,9 @@ section.todo-list {
           border: 0;
           background-color: transparent;
 
-          img {
+          svg {
             width: 16px;
+            color: var(--main-color);
           }
         }
       }

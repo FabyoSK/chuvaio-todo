@@ -3,9 +3,7 @@ import api from "../services/api";
 
 import "../styles/todoList.scss";
 
-import trashIcon from "../assets/trash-solid.svg";
-import addIcon from "../assets/check-square-regular.svg";
-
+import { FiTrash, FiCheckSquare } from "react-icons/fi";
 interface Todo {
   id: number;
   content: string;
@@ -50,7 +48,7 @@ export function TodoList() {
             value={newTodo}
           />
           <button type="submit" onClick={handleCreateNewTodo}>
-            <img src={addIcon} alt="" />
+            <FiCheckSquare size={16} color="#fff" />
           </button>
         </div>
       </header>
@@ -61,7 +59,7 @@ export function TodoList() {
             <li key={todo.id}>
               <p>{todo.content}</p>
               <button onClick={() => handleDeleteTodo(todo.id)}>
-                <img src={trashIcon} alt="" />
+                <FiTrash size={16} />
               </button>
             </li>
           ))}
