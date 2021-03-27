@@ -1,15 +1,19 @@
 import { Request, Response } from "express";
 import { uuid } from "uuidv4";
+import db from "../database/connection";
 
 interface Todo {
   id: string;
   content: string;
 }
 
-const todos = <Todo[]>[];
-
 export default class TodoController {
   async list(request: Request, response: Response) {
+    console.log("here");
+
+    const todos = await db.select().from<Todo>("todos");
+    console.log(todos);
+
     return response.json(todos);
   }
 
@@ -18,22 +22,31 @@ export default class TodoController {
 
     const todo: Todo = { id: uuid(), content: content };
 
-    todos.push(todo);
+    const trx = await db.transaction();
 
+    try {
+      console.log("TRY");
+
+      await trx("todos").insert(todo);
+      await trx.commit();
+      console.log("commit");
+    } catch (error) {
+      console.log("error");
+      await trx.rollback();
+    }
     return response.json(todo);
   }
 
   async delete(request: Request, response: Response) {
     const { id } = request.params;
 
-    const todoIndex = todos.findIndex((todo) => todo.id === id);
-
-    if (todoIndex < 0) {
-      return response.status(400).json({ ERROR: "Todo not found." });
+    try {
+      console.log("TRY");
+      await db("todos").where("id", id).del();
+      console.log("deleted");
+    } catch (error) {
+      console.log("error");
     }
-
-    todos.splice(todoIndex, 1);
-
     return response.status(204).send();
   }
 }
