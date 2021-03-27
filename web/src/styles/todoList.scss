@@ -23,6 +23,7 @@ section.todo-list {
 
       input {
         padding: 12px 24px;
+        margin-right: 2px;
         border: 0;
         border-radius: 8px;
       }
@@ -48,6 +49,14 @@ section.todo-list {
         p {
           font-size: 1rem;
           color: var(--color-text);
+        }
+        button {
+          border: 0;
+          background-color: transparent;
+
+          img {
+            width: 16px;
+          }
         }
       }
     }

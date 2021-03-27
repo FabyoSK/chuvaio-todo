@@ -5,12 +5,14 @@
 }
 :root {
   --main-color: #f05454;
+  --primary-dark: #222831;
   --secondary-dark: #30475e;
 
   --color-text: #dddddd;
 }
 body {
   font: 16px "Poppins", Arial, sans-serif;
+  background-color: var(--primary-dark);
   color: #121214;
 }
 input {

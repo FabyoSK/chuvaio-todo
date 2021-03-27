@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+
 import "../styles/todoList.scss";
+
+import trashIcon from "../assets/trash-solid.svg";
+import addIcon from "../assets/check-square-regular.svg";
 
 interface Todo {
   id: number;
@@ -24,6 +28,7 @@ export function TodoList() {
     };
 
     setTodos([...todos, todo]);
+    setNewTodo("");
   }
 
   async function handleDeleteTodo(id: number) {
@@ -45,7 +50,7 @@ export function TodoList() {
             value={newTodo}
           />
           <button type="submit" onClick={handleCreateNewTodo}>
-            Add
+            <img src={addIcon} alt="" />
           </button>
         </div>
       </header>
@@ -55,7 +60,9 @@ export function TodoList() {
           {todos.map((todo) => (
             <li key={todo.id}>
               <p>{todo.content}</p>
-              <button onClick={() => handleDeleteTodo(todo.id)}>X</button>
+              <button onClick={() => handleDeleteTodo(todo.id)}>
+                <img src={trashIcon} alt="" />
+              </button>
             </li>
           ))}
         </ul>
