@@ -1,0 +1,35 @@
+section.todo-list {
+  background: var(--secondary-dark);
+  border-radius: 1rem;
+
+  margin-top: -10rem;
+  padding: 60px;
+
+  header {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+      color: var(--color-text);
+    }
+    .input-group {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+      font-size: 16px;
+
+      input {
+        padding: 12px 24px;
+        border: 0;
+        border-radius: 8px;
+      }
+
+      button {
+        padding: 12px;
+      }
+    }
+  }
+}

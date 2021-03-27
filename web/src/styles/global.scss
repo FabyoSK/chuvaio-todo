@@ -3,6 +3,12 @@
   padding: 0;
   box-sizing: border-box;
 }
+:root {
+  --main-color: #f05454;
+  --secondary-dark: #30475e;
+
+  --color-text: #dddddd;
+}
 body {
   font: 16px "Poppins", Arial, sans-serif;
   color: #121214;

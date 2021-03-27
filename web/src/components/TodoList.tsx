@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import "../styles/todoList.scss";
 
 interface Todo {
   id: number;
@@ -33,10 +34,10 @@ export function TodoList() {
     setTodos(filtredTodo);
   }
   return (
-    <section>
+    <section className="todo-list container">
       <header>
         <h2>Your Todo List</h2>
-        <div>
+        <div className="input-group">
           <input
             type="text"
             placeholder="Add new todo"
