@@ -51,14 +51,14 @@ export function TodoList() {
       </header>
 
       <main>
-        {todos.map((todo) => {
-          return (
-            <h1>
-              {todo.content}
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id}>
+              <p>{todo.content}</p>
               <button onClick={() => handleDeleteTodo(todo.id)}>X</button>
-            </h1>
-          );
-        })}
+            </li>
+          ))}
+        </ul>
       </main>
     </section>
   );
