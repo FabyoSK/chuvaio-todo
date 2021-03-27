@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { uuid } from "uuidv4";
 import db from "../database/connection";
 
+// the interface Todo
+// All todo should hava an id, and a content
 interface Todo {
   id: string;
   content: string;
@@ -9,29 +11,32 @@ interface Todo {
 
 export default class TodoController {
   async list(request: Request, response: Response) {
-    console.log("here");
-
+    // Get all todos from de database
     const todos = await db.select().from<Todo>("todos");
-    console.log(todos);
 
+    // Return all the todos in a JSON format
     return response.json(todos);
   }
 
   async create(request: Request, response: Response) {
+    // Get the content from the request body
     const { content } = request.body;
 
+    // Create a todo with the given content
+    // With a random id
     const todo: Todo = { id: uuid(), content: content };
 
+    // Init a data base transation
     const trx = await db.transaction();
 
     try {
-      console.log("TRY");
-
+      // Insert the todo on the table todos
       await trx("todos").insert(todo);
+
+      // Commit to finish the trasaction
       await trx.commit();
-      console.log("commit");
     } catch (error) {
-      console.log("error");
+      // Rollback if something when wrong
       await trx.rollback();
     }
     return response.json(todo);
@@ -41,12 +46,8 @@ export default class TodoController {
     const { id } = request.params;
 
     try {
-      console.log("TRY");
       await db("todos").where("id", id).del();
-      console.log("deleted");
-    } catch (error) {
-      console.log("error");
-    }
+    } catch (error) {}
     return response.status(204).send();
   }
 }
