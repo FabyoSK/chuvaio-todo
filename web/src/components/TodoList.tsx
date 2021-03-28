@@ -13,31 +13,61 @@ export function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
 
+  const [hasError, setHasError] = useState(false);
+
   useEffect(() => {
     api.get("todos").then((reponse) => setTodos(reponse.data));
   }, []);
 
   async function handleCreateNewTodo() {
-    const response = await api.post("todos", { content: newTodo });
+    try {
+      const response = await api.post("todos", { content: newTodo });
 
-    const todo: Todo = {
-      id: response.data.id,
-      content: response.data.content,
-    };
+      const todo: Todo = {
+        id: response.data.id,
+        content: response.data.content,
+      };
 
-    setTodos([...todos, todo]);
-    setNewTodo("");
+      setTodos([...todos, todo]);
+      setNewTodo("");
+    } catch (error) {
+      setHasError(true);
+      console.log(error);
+
+      setTimeout(() => {
+        setHasError(false);
+      }, 5000);
+    }
   }
 
   async function handleDeleteTodo(id: number) {
-    await api.delete(`todos/${id}`);
+    try {
+      await api.delete(`todos/${id}`);
 
-    const filtredTodo = todos.filter((todo) => todo.id !== id);
+      const filtredTodo = todos.filter((todo) => todo.id !== id);
 
-    setTodos(filtredTodo);
+      setTodos(filtredTodo);
+    } catch (error) {
+      setHasError(true);
+      console.log(error);
+
+      setTimeout(() => {
+        setHasError(false);
+      }, 5000);
+    }
+  }
+
+  function errorHandling(erroMessage: string) {
+    return (
+      <div className="error">
+        <h1>{erroMessage}</h1>
+      </div>
+    );
   }
   return (
     <section className="todo-list container">
+      {hasError &&
+        errorHandling("Error while connecting to the server, Please try again")}
       <header>
         <h2>Your Todo List</h2>
         <div className="input-group">

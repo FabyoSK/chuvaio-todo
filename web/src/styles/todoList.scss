@@ -70,3 +70,10 @@ section.todo-list {
     }
   }
 }
+
+.error {
+  background-color: white;
+  color: var(--main-color);
+  margin: 12px 0;
+  padding: 12px;
+}
