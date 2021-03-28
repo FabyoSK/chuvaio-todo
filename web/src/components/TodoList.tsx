@@ -14,9 +14,15 @@ export function TodoList() {
   const [newTodo, setNewTodo] = useState("");
 
   const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    api.get("todos").then((reponse) => setTodos(reponse.data));
+    api
+      .get("todos")
+      .then((reponse) => setTodos(reponse.data))
+      .catch((err) =>
+        errorHandling("Error while fetching data from the server")
+      );
   }, []);
 
   async function handleCreateNewTodo() {
@@ -31,43 +37,40 @@ export function TodoList() {
       setTodos([...todos, todo]);
       setNewTodo("");
     } catch (error) {
-      setHasError(true);
-      console.log(error);
-
-      setTimeout(() => {
-        setHasError(false);
-      }, 5000);
+      errorHandling(error.response.data);
     }
   }
 
   async function handleDeleteTodo(id: number) {
-    try {
-      await api.delete(`todos/${id}`);
+    await api
+      .delete(`todos/${id}`)
+      .then(() => {
+        const filtredTodo = todos.filter((todo) => todo.id !== id);
 
-      const filtredTodo = todos.filter((todo) => todo.id !== id);
-
-      setTodos(filtredTodo);
-    } catch (error) {
-      setHasError(true);
-      console.log(error);
-
-      setTimeout(() => {
-        setHasError(false);
-      }, 5000);
-    }
+        setTodos(filtredTodo);
+      })
+      .catch((err) => errorHandling(err.response.data));
   }
 
-  function errorHandling(erroMessage: string) {
+  function errorHandling(error: string) {
+    setErrorMessage(error);
+    setHasError(true);
+    setTimeout(() => {
+      setHasError(false);
+    }, 5000);
+  }
+
+  function showError() {
     return (
       <div className="error">
-        <h1>{erroMessage}</h1>
+        <h1>{errorMessage}</h1>
       </div>
     );
   }
+
   return (
     <section className="todo-list container">
-      {hasError &&
-        errorHandling("Error while connecting to the server, Please try again")}
+      {hasError && showError()}
       <header>
         <h2>Your Todo List</h2>
         <div className="input-group">
