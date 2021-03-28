@@ -11,3 +11,5 @@ app.use(routes);
 
 // the Server will listen on the port 3333
 app.listen(3333);
+
+export { app };

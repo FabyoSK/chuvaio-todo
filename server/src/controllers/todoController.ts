@@ -43,7 +43,7 @@ export default class TodoController {
       await trx.rollback();
       return response.status(401).send("Error while creating a new todo");
     }
-    return response.json(todo);
+    return response.status(201).json(todo);
   }
 
   async delete(request: Request, response: Response) {
